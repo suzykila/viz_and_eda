@@ -2,7 +2,7 @@
 title: "visualization"
 author: "ww2745"
 date: "2024-10-13"
-output: html_document
+output: github_document
 ---
 
 ```{r setup}
@@ -12,21 +12,221 @@ library(ggridges)
 
 ```{r}
 weather_df = 
-  rnoaa::meteo_pull_monitors(
-    c("USW00094728", "USW00022534", "USS0023B17S"),
-    var = c("PRCP", "TMIN", "TMAX"), 
-    date_min = "2021-01-01",
-    date_max = "2022-12-31") |>
-  mutate(
-    name = recode(
-      id, 
-      "USW00094728" ~ "CentralPark_NY", 
-      "USW00022534" ~ "Molokai_HI",
-      "USS0023B17S" ~ "Waterhole_WA"),
-    tmin = tmin / 10,
-    tmax = tmax / 10) |>
-  select(name, id, everything())
+  read_csv("./data/weather_df.csv")
 
 weather_df
 ```
+##ScatterPlots
+create my first plot ever!
+
+```{r}
+ggplot(weather_df,aes(x=tmin,y=tmax))+
+  geom_point()
+```
+
+new approach, same plot
+就可以在画图之前mutate
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax))+
+  geom_point()
+```
+
+save and edit a plot, least frequent to use
+
+```{r}
+weather_plot=
+  weather_df |> 
+  ggplot(aes(x=tmin,y=tmax))
+
+weather_plot+geom_point()
+```
+
+##Advanced scatter plot
+Start with the same one and make it fancy
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point()+
+  geom_smooth(se=FALSE)
+```
+
+what about the 'aes' placement?
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax))+
+  geom_point(aes(color=name))
+```
+same graph
+
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax))+
+  geom_point(aes(color=name))+
+  geom_smooth()
+```
+only a blue line ,因为color只对geom point work
+
+Lets facet some thing！ 
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point()+
+  geom_smooth(se=FALSE)+ #don't forget the + 
+  facet_grid(. ~name) #nothing facet the rows, but facet col by names
+```
+rows version
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point()+
+  geom_smooth(se=FALSE)+ #don't forget the + 
+  facet_grid(name~.) #nothing facet the rows, but facet col by names
+```
+15% (a=0.5)transparency for individual point
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=0.2)+
+  geom_smooth(se=FALSE)+ #don't forget the + 
+  facet_grid(. ~name) #nothing facet the rows, but facet col by names
+```
+
+size of smooth
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=0.2)+
+  geom_smooth(se=FALSE,size=3)+ #don't forget the + 
+  facet_grid(. ~name) #nothing facet the rows, but facet col by names
+```
+
+alpha can be set to vary according to t min in upper level
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name,alpha=tmin))+
+  geom_point()+
+  geom_smooth(se=FALSE)+ #don't forget the + 
+  facet_grid(. ~name) #nothing facet the rows, but facet col by names
+```
+
+let's combine some elements and try a new plot.
+```{r}
+weather_df |> 
+  ggplot(aes(x=date,y=tmax,color=name))+
+  geom_point(aes(size=prcp),alpha=.5 )+
+  geom_smooth(se=FALSE )+
+  facet_grid(.~name)
+```
+map size of the dot to percipation
+
+##Some small notes 
+
+How many geoms have to exist?
+
+You can have whatever geoms you want 
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_smooth(se=FALSE)
+```
+not recommended by just showing the smooth line
+ 
+You can use a neat geom!
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax))+
+  geom_hex()
+```
+2d version,instead of showing every point,good for huge nums of data to show data distribution
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax))+
+  geom_bin2d()
+```
+another version of hex, with square dots
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax))+
+  geom_density2d()+
+  geom_point(alpha=.3 ) 
+```
+
+#Univariate plots
+Histograms are really great---look for distribution and if anything is missed 
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin))+
+  geom_histogram()
+```
+
+Can we add colors?
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,color=name))+
+  geom_histogram()
+```
+bad:1.all stack together and 2. color on the frame is not what we wanted
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin, fill=name))+
+  geom_histogram(position = "dodge")
+```
+compare dodge(difficult to distinguish the individual) vs facet_grid(need to compare the distribution by ourselves)
+
+so when using the histogram to compare distribution , a better choice:
+Let's try a new geometry
+
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin, fill=name))+
+  geom_density(alpha=.3, adjust=.5) #show more bumps and individual
+```
+lose some info, but easier to compare the distribution
+
+What about box plots?
+```{r}
+weather_df |> 
+  ggplot(aes(x=name,y=tmin))+ 
+  geom_boxplot()
+```
+let x equals categerical var--show each box for each name
+
+Trendy plots :-)
+```{r}
+weather_df |> 
+  ggplot(aes(x=name,y=tmin,fill=name))+
+  geom_violin(alpha=.5)+
+  stat_summary(fun="median")
+```
+
+Ridge plots--most popular plots in 2017 
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=name))+
+  geom_density_ridges()
+```
+useful eg. age distribution across 50 states
+
+##Save and embed
+Let's save a scatterplot.
+```{r}
+weather_plot=
+  weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)
+
+ggsave("./result/weather_plot.pdf",weather_plot, width=8, height=5)
+```
+
+What about embedding...
+```{r,fig.width=6, fig.height=3}
+weather_plot
+```
+
+Embed at different size
+```{r,fig.width=12, fig.height=8}
+weather_plot
+```
+
 
