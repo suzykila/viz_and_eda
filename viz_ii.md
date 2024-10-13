@@ -328,3 +328,25 @@ weather_df |>
     ## (`geom_point()`).
 
 ![](viz_ii_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+\##Setting options
+
+``` r
+library(tidyverse) 
+
+knitr::opts_chunk$set(
+  fig.width=6,
+  fig.asp=.6,
+  out.width="90%"
+)
+
+theme_set(theme_minimal()+theme(legend.position="bottom") )
+
+options(
+  ggplot2.continous.color="viridis",
+  ggplot2.continous.fill="viridis"
+)
+
+scale_color_discrete=scale_color_viridis_d
+scale_fill_discrete=scale_fill_viridis_d
+```
