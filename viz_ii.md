@@ -87,3 +87,79 @@ weather_df |>
     ## (`geom_point()`).
 
 ![](viz_ii_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+\##Scales
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  scale_x_continuous(
+    breaks=c(-15,0,15),
+    labels=c("-15 C","0","15")
+  )+
+  scale_y_continuous(
+    trans="sqrt",  #also could do "log" transformation
+    position="right"
+  )
+```
+
+    ## Warning in transformation$transform(x): NaNs produced
+
+    ## Warning in scale_y_continuous(trans = "sqrt", position = "right"): sqrt
+    ## transformation introduced infinite values.
+
+    ## Warning: Removed 142 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+let’s look at color scales
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  scale_color_hue(
+    name="Location", #change label name
+    h=c(100,200))
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-5-1.png)<!-- --> use default
+color: recommended
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  ) #default is continuous
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
