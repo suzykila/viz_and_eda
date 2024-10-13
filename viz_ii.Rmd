@@ -1,0 +1,40 @@
+---
+title: "vis_ii"
+author: "ww2745"
+date: "2024-10-13"
+output: github_document
+---
+
+```{r setup}
+library(tidyverse)
+library(patchwork)
+```
+
+```{r}
+weather_df = 
+  read_csv("./data/weather_df.csv")
+
+weather_df
+```
+
+## Remember this plot?
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)
+```
+
+##labs
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )
+```
+
+
