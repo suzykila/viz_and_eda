@@ -89,3 +89,130 @@ weather_df |>
     discrete=TRUE
   ) #default is continuous
 ``` 
+
+##Themes 
+Shift the legend.
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme(legend.position="bottom")
+``` 
+
+Change the overall theme 
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme_bw() 
+``` 
+
+minimal used by Jeff
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme_minimal() 
+``` 
+
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme_classic() 
+``` 
+
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  ggthemes::theme_economist() 
+``` 
+
+themes will overwrite anything
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme(legend.position="bottom")+
+  theme_bw() 
+``` 
+to put legend at the bottom, we need to put bottom in the later line
+```{r}
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme_bw()+
+  theme(legend.position="bottom")
+ 
+``` 

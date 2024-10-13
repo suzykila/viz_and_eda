@@ -163,3 +163,168 @@ weather_df |>
     ## (`geom_point()`).
 
 ![](viz_ii_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+\##Themes Shift the legend.
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme(legend.position="bottom")
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+Change the overall theme
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme_bw() 
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+minimal used by Jeff
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme_minimal() 
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme_classic() 
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  ggthemes::theme_economist() 
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+themes will overwrite anything
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme(legend.position="bottom")+
+  theme_bw() 
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-12-1.png)<!-- --> to put
+legend at the bottom, we need to put bottom in the later line
+
+``` r
+weather_df |> 
+  ggplot(aes(x=tmin,y=tmax,color=name))+
+  geom_point(alpha=.3)+
+  labs(
+    title="Temperature plot",
+    x="Minimum daily temperature(C)",
+    y="Maximum daily temperature(C)",
+    caption="Data from rnovaa package; temperatures in 2017."
+  )+
+  viridis::scale_color_viridis(
+    name="Location",
+    discrete=TRUE
+  )+
+  theme_bw()+
+  theme(legend.position="bottom")
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](viz_ii_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
